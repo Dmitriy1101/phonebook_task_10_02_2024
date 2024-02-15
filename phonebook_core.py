@@ -369,8 +369,8 @@ class PhonebookCore:
         """
 
         if not self.manager.fields:
-            self.add_log("Невозможно обработатка пустого менеджера")
-            return False
+            self.add_log("Невозможно обработатка пустого Файла")
+            return True
         update_data: list[PhonebookField] = self.manager.fields.copy()
         self.get_data_from_file()
         for field in update_data:

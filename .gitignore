@@ -1,8 +1,7 @@
 **/__pycache__
 *.pyc
-
 venv
-**.env
 .pylintrc
 .vscode
 .mypy_cache
+phonebook.txt

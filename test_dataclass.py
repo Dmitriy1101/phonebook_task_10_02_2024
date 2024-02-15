@@ -9,8 +9,8 @@ from phonebook_dataclass import (
 )
 
 
-PbF_OBJECT = PhonebookField
-Pb_OBJECT = Phonebook
+PBF = PhonebookField
+PHONEBOOK = Phonebook
 
 
 def get_random_name(s: str, lenght: int = 1) -> str:
@@ -29,9 +29,9 @@ class TestPhonebookField(TestCase):
             for i in range(20)
         ]
 
-        obj = PbF_OBJECT
+        obj = PBF
         for data in positive_data:
-            self.assertIsInstance(obj(name=data), PbF_OBJECT)
+            self.assertIsInstance(obj(name=data), PBF)
 
     def test_name_negative(self):
         """Негативный тест поля имя"""
@@ -41,7 +41,7 @@ class TestPhonebookField(TestCase):
             negative_data.append(get_random_name(string.printable, lenght=10))
             negative_data.append("f" + get_random_name(string.ascii_letters, lenght=10))
 
-        obj = PbF_OBJECT
+        obj = PBF
         for data in negative_data:
             self.assertRaises(ValidationError, lambda: obj(name=data))
 
@@ -55,9 +55,9 @@ class TestPhonebookField(TestCase):
             for i in range(20)
         ]
 
-        obj = PbF_OBJECT
+        obj = PBF
         for d in positive_data:
-            self.assertIsInstance(obj(surname=d), PbF_OBJECT)
+            self.assertIsInstance(obj(surname=d), PBF)
 
     def test_surname_negative(self):
         """Негативный тест поля фамилия"""
@@ -67,7 +67,7 @@ class TestPhonebookField(TestCase):
             negative_data.append(get_random_name(string.printable, lenght=10))
             negative_data.append(get_random_name(string.ascii_letters, lenght=10))
 
-        obj = PbF_OBJECT
+        obj = PBF
         for data in negative_data:
             self.assertRaises(ValidationError, lambda: obj(surname=data))
 
@@ -81,9 +81,9 @@ class TestPhonebookField(TestCase):
             for i in range(20)
         ]
 
-        obj = PbF_OBJECT
+        obj = PBF
         for d in positive_data:
-            self.assertIsInstance(obj(patrionymic=d), PbF_OBJECT)
+            self.assertIsInstance(obj(patrionymic=d), PBF)
 
     def test_patrionymic_negative(self):
         """Негативный тест поля отчечтво"""
@@ -93,7 +93,7 @@ class TestPhonebookField(TestCase):
             negative_data.append(get_random_name(string.printable, lenght=10))
             negative_data.append(get_random_name(string.ascii_letters, lenght=10))
 
-        obj = PbF_OBJECT
+        obj = PBF
         for d in negative_data:
             self.assertRaises(ValidationError, lambda: obj(patrionymic=d))
 
@@ -114,9 +114,9 @@ class TestPhonebookField(TestCase):
                 + str(random.randrange(2 + i, 10 + i))
             )
 
-        obj = PbF_OBJECT
+        obj = PBF
         for data in positive_data:
-            self.assertIsInstance(obj(organization=data), PbF_OBJECT)
+            self.assertIsInstance(obj(organization=data), PBF)
 
     def test_organization_negative(self):
         """Негативный тест поля Организация"""
@@ -126,7 +126,7 @@ class TestPhonebookField(TestCase):
             negative_data.append(get_random_name(string.printable, lenght=10))
             negative_data.append(get_random_name(string.ascii_letters, lenght=10))
 
-        obj = PbF_OBJECT
+        obj = PBF
         for d in negative_data:
             self.assertRaises(ValidationError, lambda: obj(organization=d))
 
@@ -135,9 +135,9 @@ class TestPhonebookField(TestCase):
 
         positive_data: list[str] = ["4444", "0000", "9999", "44-44", "55-55"]
 
-        obj = PbF_OBJECT
+        obj = PBF
         for data in positive_data:
-            self.assertIsInstance(obj(work_phone=data), PbF_OBJECT)
+            self.assertIsInstance(obj(work_phone=data), PBF)
 
     def test_work_phone_negative(self):
         """Негативный тест поля Рабочий_телефон"""
@@ -152,7 +152,7 @@ class TestPhonebookField(TestCase):
                 get_random_name(string.digits, lenght=random.randrange(5, 10))
             )
 
-        obj = PbF_OBJECT
+        obj = PBF
         for data in negative_data:
             self.assertRaises(ValidationError, lambda: obj(work_phone=data))
 
@@ -165,9 +165,9 @@ class TestPhonebookField(TestCase):
             "+7-999-999-99-99",
         ]
 
-        obj = PbF_OBJECT
+        obj = PBF
         for data in positive_data:
-            self.assertIsInstance(obj(personal_phone=data), PbF_OBJECT)
+            self.assertIsInstance(obj(personal_phone=data), PBF)
 
     def test_personal_phone_negative(self):
         """Негативный тест поля Личный_телефон"""
@@ -190,7 +190,7 @@ class TestPhonebookField(TestCase):
         punct_data.remove("-")
         negative_data = negative_data + [perf.join(plus_seven) for perf in punct_data]
 
-        obj = PbF_OBJECT
+        obj = PBF
         for data in negative_data:
             self.assertRaises(ValidationError, lambda: obj(personal_phone=data))
 
@@ -199,10 +199,10 @@ class TestPhonebookField(TestCase):
         positive_data: list[str] = [
             datetime.datetime.now().strftime("%d.%m.%Y") for i in range(7)
         ]
-        obj = PbF_OBJECT
+        obj = PBF
         for d in positive_data:
-            self.assertIsInstance(obj(recording_date=d), PbF_OBJECT)
-        self.assertIsInstance(obj(), PbF_OBJECT)
+            self.assertIsInstance(obj(recording_date=d), PBF)
+        self.assertIsInstance(obj(), PBF)
 
     def test_recording_date_negative(self):
         """Негативный тест поля Дата_записи"""
@@ -212,16 +212,16 @@ class TestPhonebookField(TestCase):
             datetime.datetime.now().strftime("%d-%m-%Y"),
         ]
 
-        obj = PbF_OBJECT
+        obj = PBF
         for data in negative_data:
             self.assertRaises(ValidationError, lambda: obj(recording_date=data))
 
     def test_modified_field_positive(self):
         """Позитивный тест поля Изменялся"""
-        obj = PbF_OBJECT
-        d: PbF_OBJECT = obj()
-        self.assertIsInstance(d, PbF_OBJECT)
-        self.assertIsInstance(obj(modified="False"), PbF_OBJECT)
+        obj = PBF
+        d: PBF = obj()
+        self.assertIsInstance(d, PBF)
+        self.assertIsInstance(obj(modified="False"), PBF)
         self.assertFalse(d.modified)
         d.modified = True
         self.assertTrue(d.modified)
@@ -231,7 +231,7 @@ class TestPhonebookField(TestCase):
     def test_modified_field_negative(self):
         """Негативный тест поля Изменялся"""
 
-        obj = PbF_OBJECT
+        obj = PBF
         self.assertRaises(ValidationError, lambda: obj(modified="ok"))
         self.assertRaises(ValidationError, lambda: obj(modified="3"))
 
@@ -240,12 +240,12 @@ class TestPhonebook(TestCase):
     """Тест Модели БД"""
 
     def test_all(self):
-        obj: Pb_OBJECT = Pb_OBJECT
-        obj_field: PbF_OBJECT = PbF_OBJECT
-        self.assertIsInstance(obj(), Pb_OBJECT)
-        self.assertIsInstance(obj_field(), PbF_OBJECT)
-        data: Pb_OBJECT = obj()
-        field: PbF_OBJECT = obj_field()
+        obj: PHONEBOOK = PHONEBOOK
+        obj_field: PBF = PBF
+        self.assertIsInstance(obj(), PHONEBOOK)
+        self.assertIsInstance(obj_field(), PBF)
+        data: PHONEBOOK = obj()
+        field: PBF = obj_field()
         data.fields.append(field)
         self.assertEqual(field, data.fields[0])
         data.fields.remove(field)
