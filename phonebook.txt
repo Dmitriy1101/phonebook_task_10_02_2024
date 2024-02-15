@@ -1,0 +1,4 @@
+e41de84b76894f4a849b55d9b8320ae6|Мачо|Пикчо|Пёсий|Лес66|Not entered|Not entered|15.02.2024|True
+ba39bc00bb1b4f8b906ea2f1b83c44ed|Макар|Бычий|Павлович|Село|00-22|Not entered|15.02.2024|True
+d8cc29584a064cb6944f93a699a55aa2|Пётр|Помойкин|Санин|Свалка|Not entered|Not entered|16.02.2024|False
+a5e1b2f2bdb840f8bdf13f38bf4a67bb|Имя|Not entered|Not entered|Not entered|Not entered|Not entered|16.02.2024|False
