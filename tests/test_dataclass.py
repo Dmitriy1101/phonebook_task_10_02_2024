@@ -3,7 +3,7 @@ import string
 import datetime
 from unittest import TestCase
 from pydantic import ValidationError
-from phonebook_dataclass import (
+from core.phonebook_dataclass import (
     Phonebook,
     PhonebookField,
 )

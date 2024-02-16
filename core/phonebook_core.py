@@ -1,13 +1,15 @@
 """
 Это модуль управления БД отделённый от логики связанной 
 пользователем, предназначеный для использования отдельно.
+Термин менеджер означает сущность отвечающую за работу с файлом
+и является объектом хранящим данные файла.
 """
 import datetime
 import os
 import re
 from pathlib import Path
 
-from phonebook_dataclass import PhonebookField, Phonebook
+from core.phonebook_dataclass import PhonebookField, Phonebook
 
 
 class PhonebookCore:
@@ -200,16 +202,18 @@ class PhonebookCore:
             self.add_log("Печатать нечего.")
             return False
 
-    def put_data(self) -> bool:
+    def put_data(self, rem: bool = False) -> bool:
         """
         Это основной метод записи данных менеджера в БД!
         Используй heal_manager_data для обновления БД!
+        Параметр rem является дополнительной подстраховкой,
+        что бы при пустом менеджере не удалить данные файла.
         Эаппись данных менеджера в файл.
         Вернет True в случае успеха.
         """
 
         data: list[PhonebookField] = self.manager.fields
-        if data:
+        if data or rem:
             try:
                 with open(self.file_name, "w", encoding="utf-8") as f:
                     for obj in data:
@@ -260,7 +264,7 @@ class PhonebookCore:
         готовых к записи в БД.
         Передаем их в менеджер,
         возвращаем True при успехе,
-        первая ошибка вернет False.
+        ошибки вернут False.
         """
 
         if not inp_list:
@@ -346,7 +350,7 @@ class PhonebookCore:
             field: PhonebookField = oper_data.pop(0)
             if self.del_manager_field(field):
                 self.add_log(f"Объект удалён: {field}")
-        return self.put_data()
+        return self.put_data(rem=True)
 
     def del_manager_field(self, field: PhonebookField) -> bool:
         """
@@ -364,7 +368,7 @@ class PhonebookCore:
         """
         Основной метод дозаписи данных менеджера в БД!
         Записываем изменения данных в БД.
-        Иззмененные данные лежат в менеджере.
+        При записи происходит проверка данных и удаление лишних данных.
         Вернём True при успехе.
         """
 

@@ -1,24 +1,26 @@
 from unittest import TestCase
-from phonebook_dataclass import (
+from pathlib import Path
+from core.phonebook_dataclass import (
     Phonebook,
     PhonebookField,
 )
-from phonebook_core import PhonebookCore
-from phonebook_manager import PhonebookManager
+from core.phonebook_core import PhonebookCore
+from core.phonebook_manager import PhonebookManager
 
 
 PBF = PhonebookField
 PB = Phonebook
 CORE = PhonebookCore
 MANAGER = PhonebookManager
-TEST_FILE = "test.txt"
+TEST_FILE = str(Path(Path(__file__).resolve().parent, "test.txt"))
+print(TEST_FILE)
 TEST_DATA: dict[str, str] = {
-    "Имя": "Аапоао",
-    "Фамилия": "Ирпорпо",
-    "Отчество": "Арорпо",
-    "Организация": "Прапо5",
-    "Рабочий_телефон": "3333",
-    "Личный_телефон": "+73332221111",
+    "name": "Иван",
+    "surname": "Рюриковичь",
+    "patrionymic": "Васильевичь",
+    "organization": "Москва",
+    "work_phone": "11-11",
+    "personal_phone": "+7 999 999 99 99",
 }
 
 
@@ -36,6 +38,7 @@ class TestPhonebookCore(TestCase):
         self.assertRaises(NameError, lambda: obj(".t"))
 
     def test_ping(self):
+        """Тест запроса на состояние файла."""
         obj = CORE(TEST_FILE)
         self.assertTrue(obj.ping())
 
@@ -46,7 +49,6 @@ class TestPhonebookCore(TestCase):
         2) set_manager_input_list
         """
         obj = CORE(TEST_FILE)
-        self.assertTrue(obj.ping())
         data: dict[str, str] = TEST_DATA
 
         self.assertIsInstance(obj.get_obj_fom_dict(data.copy()), PBF)
@@ -75,12 +77,13 @@ class TestPhonebookCore(TestCase):
     def test_file_work(self):
         """
         Тестируем работу с файлом:
-        1)get_field_index
-        2)change_equal_field_or_add
-        3)
+        1)set_manager_input_list
+        2)get_line_from_field
+        3)get_data_from_file
+        4)heal_manager_data
+
         """
         obj = CORE(TEST_FILE)
-        self.assertTrue(obj.ping())
         data: dict[str, str] = TEST_DATA
         self.assertTrue(
             obj.set_manager_input_list(
@@ -89,12 +92,33 @@ class TestPhonebookCore(TestCase):
                 ]
             )
         )
-        obj.set_manager_input_list(
-            [
-                data.copy(),
-            ]
-        )
+        self.assertTrue(obj.put_data())
         field = obj.manager.fields[0]
         self.assertIsInstance(obj.get_line_from_field(field), str)
         self.assertTrue(obj.get_data_from_file())
         self.assertTrue(obj.heal_manager_data())
+
+
+    def test_print(self):
+        """Тестируем печать."""
+
+        obj = CORE(TEST_FILE)
+        self.assertTrue(obj.get_data_from_file())
+        self.assertTrue(obj.print_data())
+
+    def test_delete_data(self):
+        """Тестируем удаление данных."""
+        obj = CORE(TEST_FILE)
+        data: dict[str, str] = TEST_DATA
+        self.assertTrue(
+            obj.set_manager_input_list(
+                [
+                    data.copy(),
+                ]
+            )
+        )
+        self.assertIsInstance(obj.get_obj_fom_dict(data), PBF)
+        self.assertTrue(obj.put_data())
+        self.assertTrue(obj.get_data_from_file())
+        self.assertTrue(obj.manager.fields[0]==obj.get_obj_fom_dict(data.copy()))
+        self.assertTrue(obj.del_manager_data())

@@ -2,11 +2,12 @@
 \t\tЗдравствуйте!\n
 Телефонный справочник работающий через txt файл.
 """
+from pdb import run
 from typing import LiteralString, Any
 from pathlib import Path
 from pydantic.fields import FieldInfo
-from phonebook_core import PhonebookCore
-from phonebook_dataclass import (
+from core.phonebook_core import PhonebookCore
+from core.phonebook_dataclass import (
     PhonebookField,
     PhonebookManagerActions,
     PhonebookManagerFunctions,
@@ -41,57 +42,57 @@ class PhonebookManager:
         """
         return PhonebookManagerActions(
             find=PhonebookManagerFunctions(
-                action_name="Поиск",  # +
+                action_name="Поиск",
                 description="Поиск элемента в данных.",
                 function=self.find_data,
             ),
             update=PhonebookManagerFunctions(
-                action_name="Изменить",  # +
+                action_name="Изменить",
                 description="Изменить данные в файле.",
                 function=self.update_data,
             ),
             print=PhonebookManagerFunctions(
-                action_name="Печать",  # +
+                action_name="Печать",
                 description="Печать данных файла на экран.",
                 function=self.print_data,
             ),
             add=PhonebookManagerFunctions(
-                action_name="Оптимизировать",  # +
+                action_name="Оптимизировать",
                 description="Удалить дубликаты из БД.",
                 function=self.heal_data,
             ),
             inp=PhonebookManagerFunctions(
-                action_name="Ввод",  # +
+                action_name="Ввод",
                 description="Ввести данные с клавиатуры в файл.",
                 function=self.input_data,
             ),
             rem=PhonebookManagerFunctions(
-                action_name="Удалить",  # +
+                action_name="Удалить",
                 description="Удалить объекты  из файла.",
                 function=self.delete_data,
             ),
             exit=PhonebookManagerFunctions(
-                action_name="Выход",  # +
+                action_name="Выход",
                 description="Выход из программы.",
                 function=self.end_it,
             ),
             logs=PhonebookManagerFunctions(
-                action_name="Логи",  # +
+                action_name="Логи",
                 description="Распечатка логов.",
                 function=self.print_mamager_err_list,
             ),
             clean_logs=PhonebookManagerFunctions(
-                action_name="Очистить логи",  # +
+                action_name="Очистить логи",
                 description="Очистить данные логов.",
                 function=self.clean_logs,
             ),
             check=PhonebookManagerFunctions(
-                action_name="Проверить файл",  # +
+                action_name="Проверить файл",
                 description="Проверить состояние и размер файла.",
                 function=self.check,
             ),
             commands=PhonebookManagerFunctions(
-                action_name="Команды",  # +
+                action_name="Команды",
                 description="Вывести список команд.",
                 function=self.commands,
             ),
@@ -371,12 +372,3 @@ class PhonebookManager:
 
         print(__doc__)
         self.commands()
-
-
-def main() -> None:
-    worker = PhonebookManager()
-    worker.wellcome()
-
-
-if __name__ == "__main__":
-    main()

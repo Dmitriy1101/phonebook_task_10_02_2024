@@ -1,7 +1,6 @@
 **/__pycache__
 *.pyc
 venv
-.pylintrc
 .vscode
 .mypy_cache
 phonebook.txt
